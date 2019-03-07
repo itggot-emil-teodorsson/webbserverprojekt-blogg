@@ -30,5 +30,20 @@ header button a{
 }
 
 .login_link{
-    
+    grid-column: 10/11;
+}
+
+.login_link a{
+    color: white;
+    font-size: 20px;
+}
+
+.register_link{
+    grid-column: 9/10;
+    grid-row: 1/2;
+}
+
+.register_link a{
+    color: white;
+    font-size: 20px;
 }

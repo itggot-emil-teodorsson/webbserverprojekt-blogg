@@ -18,7 +18,7 @@ get('/login') do
     slim(:login)
 end
 
-post('/test') do
+post('/check_values') do
     db=SQLite3::Database.new('db/users.db')
 
     db.results_as_hash = true
@@ -47,4 +47,29 @@ end
 
 post('/logout') do
     redirect('/')
+end
+
+get('/register') do
+    slim(:register)
+end
+
+post('/register_values') do
+    db=SQLite3::Database.new('db/users.db')
+    
+    db.results_as_hash = true
+
+    session[:reg_username] = params["reg_username"]
+    session[:reg_password] = params["reg_password"]
+
+    if session[:reg_username] != db.execute("SELECT Username FROM accounts")
+        db.execute("INSERT INTO accounts (Username, Password) VALUES (?,?)", session[:reg_username], session[:reg_password])
+    else
+        redirect('/username_taken')
+    end
+
+    redirect('/')
+end
+
+get('/username_taken') do
+    slim(:username_taken)
 end
