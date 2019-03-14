@@ -47,3 +47,13 @@ header button a{
     color: white;
     font-size: 20px;
 }
+
+.user_page_link{
+    grid-column: 8/9;
+    grid-row: 1/2;
+}
+
+.user_page_link a{
+    color: white;
+    font-size: 20px;
+}

@@ -32,6 +32,7 @@ post('/check_values') do
         if session[:username] == result[i][0]
             if BCrypt::Password.new(result[i][1]) == session[:password]
                 valid = true
+                User_id = result[i][2]
                 break
             else
                 valid = false
@@ -87,4 +88,8 @@ end
 
 get('/username_taken') do
     slim(:username_taken)
+end
+
+get('/user_page') do
+    slim(:userpage)
 end
