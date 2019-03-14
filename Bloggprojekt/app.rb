@@ -26,14 +26,27 @@ post('/check_values') do
     
     session[:username] = params["username"]
     session[:password] = params["password"]
-    if session[:username] == result[0][0]
-        if session[:password] == result[0][1]
-            redirect('/access')
+    
+    i = 0
+    while i <= result.length
+        if session[:username] == result[i][0]
+            if session[:password] == result[i][1]
+                valid = true
+                break
+            else
+                valid = false
+            end
         else
-            redirect('/no_access')
+            valid = false
         end
-    else
-        redirect('/no_access')
+
+        i += 1
+    end
+
+    if valid == true
+        redirect('/acess')
+    else 
+        redirect('/no_acess')
     end
 end
 
