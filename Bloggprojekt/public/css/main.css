@@ -1,3 +1,4 @@
+/*INDEX*/
 body{
     background-color: skyblue;
     width: 1520px;
@@ -56,4 +57,31 @@ header button a{
 .user_page_link a{
     color: white;
     font-size: 20px;
+}
+
+/*PROFIL_REDIGERING*/
+.profil_redigering{
+    grid-row: 2/8;
+    grid-column: 2/5;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    display: grid;
+}
+
+.profil_redigering form{
+    grid-row: 1/7;
+    grid-column: 1/4;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    display: grid;
+}
+
+.profil_redigering form .om_mig{
+    grid-row: 1/6;
+    grid-column: 1/4;
+}
+
+.profil_redigering form .spara{
+    grid-row: 6/7;
+    grid-column: 2/3;
 }

@@ -32,7 +32,7 @@ post('/check_values') do
         if session[:username] == result[i][0]
             if BCrypt::Password.new(result[i][1]) == session[:password]
                 valid = true
-                User_id = result[i][2]
+                session[:User_id] = result[i][2]
                 break
             else
                 valid = false
@@ -83,13 +83,48 @@ post('/register_values') do
         redirect('/username_taken')
     end
 
-    redirect('/')
+    redirect('/reg_complete')
+end
+
+get('/reg_complete') do
+    slim(:reg_complete)
 end
 
 get('/username_taken') do
     slim(:username_taken)
 end
 
+before('/user_page') do
+    db=SQLite3::Database.new('db/users.db')
+
+    db.results_as_hash = true
+    result = db.execute("SELECT * FROM accounts")
+
+    j = 0
+    
+    while j <= result.length - 1
+        if session[:User_id] == result[j][2]
+            session[:logged_in] = true
+        else
+            session[:logged_in] = false
+        end
+        
+        j += 1
+    end
+end
+
 get('/user_page') do
-    slim(:userpage)
+    if session[:logged_in] == true
+        slim(:userpage)
+    else
+        slim(:no_profile)
+    end
+end
+
+get('/red_prof') do
+    slim(:red_prof)
+end
+
+post('/spara_redigering') do
+    
 end
