@@ -28,9 +28,9 @@ post('/check_values') do
     session[:password] = params["password"]
     
     i = 0
-    while i <= result.length
+    while i <= result.length - 1
         if session[:username] == result[i][0]
-            if session[:password] == result[i][1]
+            if BCrypt::Password.new(result[i][1]) == session[:password]
                 valid = true
                 break
             else
@@ -44,9 +44,9 @@ post('/check_values') do
     end
 
     if valid == true
-        redirect('/acess')
+        redirect('/access')
     else 
-        redirect('/no_acess')
+        redirect('/no_access')
     end
 end
 
@@ -74,8 +74,10 @@ post('/register_values') do
     session[:reg_username] = params["reg_username"]
     session[:reg_password] = params["reg_password"]
 
+    session[:hash_password] = BCrypt::Password.create(session[:reg_password])
+
     if session[:reg_username] != db.execute("SELECT Username FROM accounts")
-        db.execute("INSERT INTO accounts (Username, Password) VALUES (?,?)", session[:reg_username], session[:reg_password])
+        db.execute("INSERT INTO accounts (Username, Password) VALUES (?,?)", session[:reg_username], session[:hash_password])
     else
         redirect('/username_taken')
     end
