@@ -26,6 +26,7 @@ post('/check_values') do
     
     session[:username] = params["username"]
     session[:password] = params["password"]
+
     
     i = 0
     while i <= result.length - 1
@@ -119,5 +120,31 @@ get('/red_prof') do
 end
 
 post('/spara_redigering') do
+    db=SQLite3::Database.new('db/users.db')
     
+    db.results_as_hash = true
+    UserId = db.execute("SELECT * FROM profiles")
+
+    session[:info] = params["info"]
+
+    if UserId.length == 0
+        db.execute("INSERT INTO profiles (ProfileText, UserId) VALUES (?,?)", session[:info], session[:User_id])
+    else
+        k = 0
+        found_Id = false
+        while k <= UserId.length - 1
+            if session[:User_id] == UserId[k][0]
+                db.execute("UPDATE profiles SET ProfileText = ? WHERE UserId = ?", session[:info], session[:User_id])
+                found_Id = true
+            end
+            k += 1
+        end
+        
+        if found_Id == false
+            db.execute("INSERT INTO profiles (ProfileText, UserId) VALUES (?,?)", session[:info], session[:User_id])
+        end
+
+    end
+
+    redirect('/user_page')
 end
