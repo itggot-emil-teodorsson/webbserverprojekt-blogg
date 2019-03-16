@@ -77,21 +77,13 @@ post('/register_values') do
 
     session[:hash_password] = BCrypt::Password.create(session[:reg_password])
 
-    if session[:reg_username] != db.execute("SELECT Username FROM accounts")
-        db.execute("INSERT INTO accounts (Username, Password) VALUES (?,?)", session[:reg_username], session[:hash_password])
-    else
-        redirect('/username_taken')
-    end
+    db.execute("INSERT INTO accounts (Username, Password) VALUES (?,?)", session[:reg_username], session[:hash_password])
 
     redirect('/reg_complete')
 end
 
 get('/reg_complete') do
     slim(:reg_complete)
-end
-
-get('/username_taken') do
-    slim(:username_taken)
 end
 
 before('/user_page') do
