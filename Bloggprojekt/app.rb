@@ -113,8 +113,27 @@ before('/user_page') do
 end
 
 get('/user_page') do
+    db=SQLite3::Database.new('db/users.db')
+    
+    db.results_as_hash = true
+    profile_list = db.execute("SELECT * FROM profiles")
+
     if session[:logged_in] == true
-        slim(:userpage)
+        
+        session[:created_profile] = false
+
+        l = 0
+        while l <= profile_list.length - 1
+            if session[:User_id] == profile_list[l][0]
+                session[:created_profile] = true 
+            end
+
+            l += 1
+        end
+        
+        result = db.execute("SELECT profiles.ProfileText FROM profiles WHERE UserId = ?", session[:User_id])
+        
+        slim(:userpage, locals:{profiles:result.first})
     else
         slim(:no_profile)
     end
@@ -128,17 +147,17 @@ post('/spara_redigering') do
     db=SQLite3::Database.new('db/users.db')
     
     db.results_as_hash = true
-    UserId = db.execute("SELECT * FROM profiles")
+    result = db.execute("SELECT * FROM profiles")
 
     session[:info] = params["info"]
 
-    if UserId.length == 0
+    if result.length == 0
         db.execute("INSERT INTO profiles (ProfileText, UserId) VALUES (?,?)", session[:info], session[:User_id])
     else
         k = 0
         found_Id = false
-        while k <= UserId.length - 1
-            if session[:User_id] == UserId[k][0]
+        while k <= result.length - 1
+            if session[:User_id] == result[k][0]
                 db.execute("UPDATE profiles SET ProfileText = ? WHERE UserId = ?", session[:info], session[:User_id])
                 found_Id = true
             end

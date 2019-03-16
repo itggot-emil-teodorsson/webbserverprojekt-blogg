@@ -70,6 +70,23 @@ header button a{
     font-size: 20px;
 }
 
+/* PROFIL */
+.om_mig_text{
+    grid-row: 2/3;
+    grid-column: 2/3;
+}
+
+.info_om_mig{
+    grid-row: 3/6;
+    grid-column: 2/5;
+    background-color: white;
+    border: solid gray 2px;
+}
+
+.info_om_mig p{
+    margin-left: 5px;
+}
+
 /*PROFIL_REDIGERING*/
 .profil_redigering{
     grid-row: 2/8;

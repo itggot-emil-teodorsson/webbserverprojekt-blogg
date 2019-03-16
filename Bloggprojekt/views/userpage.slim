@@ -2,3 +2,11 @@ h1 Profil
 
 a href="/red_prof" Redigera profil
 a href="/" Tillbaka till startsidan
+
+h2 class="om_mig_text" Om mig:
+
+div class="info_om_mig"
+    - if session[:created_profile] == true
+        p = profiles["ProfileText"]
+    - else
+        p Tryck på "Redigera profil" för att skriva något om dig själv!
