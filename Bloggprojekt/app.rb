@@ -97,6 +97,7 @@ before('/user_page') do
     while j <= result.length - 1
         if session[:User_id] == result[j][2]
             session[:logged_in] = true
+            break
         else
             session[:logged_in] = false
         end
