@@ -7,7 +7,12 @@ enable :sessions
 
 
 get('/') do
-    slim(:index)
+    db = SQLite3::Database.new("db/users.db")
+    db.results_as_hash = true
+        
+    result = db.execute("SELECT accounts.Username FROM accounts WHERE Id = ?", session[:User_id])
+
+    slim(:index, locals:{accounts:result.first})
 end
 
 get('/skapa_inlagg') do

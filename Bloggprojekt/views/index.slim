@@ -10,3 +10,8 @@ header
 
     div class="user_page_link"
         a href="/user_page" Profil
+
+    - if session[:User_id]
+        p = accounts["Username"]
+    - else
+        p Inte inloggad
