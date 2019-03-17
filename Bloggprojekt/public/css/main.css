@@ -70,6 +70,41 @@ header button a{
     font-size: 20px;
 }
 
+.inlagg_rubrik{
+    grid-row: 2/3;
+    grid-column: 2/3;
+    color: rgb(56, 56, 56);
+    margin-bottom: 0px;
+}
+
+.inlagg{
+    grid-row: 3/16;
+    grid-column: 2/5;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(15, 1fr);
+    display: grid;
+    background-color: white;
+    border: solid grey 2px;
+}
+
+.inlagg .inlagg_text{
+    grid-column: 3/9;
+    border: solid black 2px;
+    grid-template-columns: repeat(5, 1fr);
+    display: grid;
+}
+
+.inlagg .inlagg_text .p_name{
+    grid-column: 1/2;
+    margin-left: 5px;
+    
+}
+
+.inlagg .inlagg_text .p_text{
+    grid-column: 2/6;
+    margin-right: 5px;
+}
+
 /* PROFIL */
 .om_mig_text{
     grid-row: 2/3;
@@ -110,6 +145,33 @@ header button a{
 }
 
 .profil_redigering form .spara{
+    grid-row: 6/7;
+    grid-column: 2/3;
+}
+
+/* SKAPA_INLAGG */
+.create_post{
+    grid-row: 2/8;
+    grid-column: 2/5;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    display: grid;
+}
+
+.create_post form{
+    grid-row: 1/7;
+    grid-column: 1/4;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    display: grid;
+}
+
+.create_post form .post_text{
+    grid-row: 1/6;
+    grid-column: 1/4;
+}
+
+.create_post form .lagg_upp{
     grid-row: 6/7;
     grid-column: 2/3;
 }

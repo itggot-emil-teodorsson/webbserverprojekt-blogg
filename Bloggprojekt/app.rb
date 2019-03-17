@@ -11,12 +11,51 @@ get('/') do
     db.results_as_hash = true
         
     result = db.execute("SELECT accounts.Username FROM accounts WHERE Id = ?", session[:User_id])
+    post_text = db.execute("SELECT posts.Text, accounts.Username FROM posts INNER JOIN accounts ON accounts.Id = posts.UId")
 
-    slim(:index, locals:{accounts:result.first})
+    slim(:index, locals:{accounts:result.first, posts:post_text})
+end
+
+before('/skapa_inlagg') do
+    db=SQLite3::Database.new('db/users.db')
+
+    db.results_as_hash = true
+    result = db.execute("SELECT * FROM accounts")
+
+    j = 0
+    
+    while j <= result.length - 1
+        if session[:User_id] == result[j][2]
+            session[:logged_in] = true
+            break
+        else
+            session[:logged_in] = false
+        end
+        
+        j += 1
+    end
 end
 
 get('/skapa_inlagg') do
-    slim(:skapa_inlagg)
+    if session[:logged_in] == true
+        slim(:skapa_inlagg)
+    else
+        slim(:no_profile)
+    end
+end
+
+post('/uploading_post') do
+
+    db=SQLite3::Database.new('db/users.db')
+    
+    db.results_as_hash = true
+    result = db.execute("SELECT * FROM posts")
+
+    session[:text] = params["p_text"]
+
+    db.execute("INSERT INTO posts (Text, UId) VALUES (?,?)", session[:text], session[:User_id])
+
+    redirect('/')
 end
 
 get('/login') do
